@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Receitas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Adicionando estilos CSS personalizados */
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="bg-warning" onload="preencheCatalogo()">
+    <main class="container-fluid">
+        <div class="d-flex flex-wrap justify-content-center" id="pnlCatalogo"></div>
+    </main>    
+</body>
+<script>
+    let receitas = [
+        {
+            titulo:'Feijão Branco com Linguiça', imagem:'img/feijao-branco-com-linguica.png', 
+            ingredientes:['2 xícaras de feijão branco', '1/2 gomo de linguiça calabresa', 'Cebola e alho', 'sal a gosto', 'colorau'],
+            preparo:'Refogue cebola, alho e sal. Coloque colorau e frite a calabresa no refogado,coloque o feijão, cubra com água, aprox. 1 litro e deixe cozinhar por 20 minutos.'
+        },
+        {
+            titulo:'Feijão com Bacon', imagem:'img/feijaoComBacon.png',
+            ingredientes:['1 xícara de feijão', '1 litro de água', '1 dente de alho picado', '1 folha de louro', '½ cebola picada', '2 unidades de bacon em fatias'],
+            preparo:'Cozinhe o feijão com o louro na pressão por 20 min. Doure a cebola, o alho e o bacon picado. Reserve. Junte o tempero com o feijão, e volte para a pressão por 10 min.'
+        },
+        {
+            titulo:'Feijoada', imagem:'img/feijoada.png', ingredientes:['1 copo de feijão preto', '2 gomos de paio em rodelas',
+            '1 gomo de calabresa', '200 gramas de bacon picado', '3 folhas de louro', '3 dentes de alho e cebolinha'],
+            preparo:'Cozinhe o feijão por 15 mins. Ferva as linguiças e o bacon por 10 mins. Frite bacon e linguiças com alho e louro. Adicione ao feijão. Deixe na pressão por 15 mins. Adicione a cebolinha.'
+        }
+    ];
+    
+    function getListaIngredientes(receita) {
+        let lista = "<ul>";
+        lista += receita.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).join("");
+        lista += "</ul>";
+        return lista;
+    }
+
+    function getCard(receita) {
+        return `
+            <div class="card m-4" style="width: 28%;">
+                <img class="card-img-top" src="${receita.imagem}" alt="${receita.titulo}">
+                <div class="card-body">
+                    <h5 class="card-title">${receita.titulo}</h5>
+                    <div class="card-text">
+                        ${getListaIngredientes(receita)}
+                        <hr>
+                        ${receita.preparo}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function preencheCatalogo() {
+            let pnlCatalogo = document.getElementById("pnlCatalogo");
+            let html = receitas.map(getCard).join("");
+            pnlCatalogo.innerHTML = html;
+        }
+
+</script>
+</html>
