@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenando</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+      <div>
+          <h1>Ordenando Valores</h1>
+      </div>    
+      <div class="form-group mb-3">
+        <label for="valor">valor</label>
+        <input type="number" id="valor" class="form-control">
+      </div>
+      <div class="form-group mb-3">   
+        <button class="btn btn-primary" onclick="add()">Adicionar</button>
+        <hr>
+      </div>
+      <div class="form-group mb-3">                      
+          <label>Escolha uma opção: </label>
+          <select class="form-control" id="algoritmo">
+              <option value="bubble" selected>Bubble Sort</option>
+              <option value="selection">Selection Sort</option>
+              <option value="quick">Quick Sort</option>
+          </select>
+      </div>
+      <div>    
+          <button class="btn btn-primary" onclick="ordenar()">Ordenar</button>
+          <button class="btn btn-primary" onclick="misturar()">Misturar</button>
+          <hr>
+      </div>
+      <div>
+          <ul id="valores"> 
+          </ul>
+      </div>
+      <div>
+        <hr>
+        <button class="btn btn-primary" onclick="limpar()">Limpar</button>
+      </div>
+    </div>  
+</body>
+<script src="ordenando.js"></script>
+<script type="text/javascript">
+
+    // Cria um vetor para armazenar os elementos da lista
+    let valores = [];
+        
+    function add() {
+        var valor = Number(document.getElementById("valor").value);
+        // Se o campo não estiver vazio...
+        if (!isNaN(valor)){
+          var lista = document.getElementById("valores");
+          valores.push(valor);
+          var node = document.createElement("li");
+          var textnode = document.createTextNode(valor);
+          // Seleciona o campo de entrada
+          let input = document.querySelector('input');
+          // Limpa o campo de entrada
+          input.value = '';
+          node.appendChild(textnode);
+          lista.appendChild(node);
+        }                
+      }
+           
+    function ordenar() {       
+      var algoritmo = document.getElementById("algoritmo").value;
+      switch (algoritmo) {
+        case "bubble":
+          bubble_sort(valores);
+          break;
+        case "selection":
+          selection_sort(valores);
+          break;
+        case "quick":
+        //quick_sort(valores, valores[0],valores[-1]); 
+        quick_sort(valores, 0, valores.length - 1);
+          break;
+      }
+      atualizarLista();
+    }
+
+    function atualizarLista() {
+      var lista = document.getElementById("valores");
+      lista.innerHTML = valores.map(function(valor) {
+        return "<li>" + valor + "</li>";
+      }).reduce(function(a, b) {
+        return a + b;
+      }, "");
+    }
+      
+    function misturar() {
+        if (valores.length < 3){
+          // Aplicar a função swap ao vetor
+          valores = swap(valores, valores[0], valores[-1]);
+        }else{
+          // Aplicar a função shuffle ao vetor
+          valores = shuffle(valores, valores.length);
+        }             
+        atualizarLista();
+    }
+        
+    function limpar() {
+      valores = [];
+      atualizarLista();
+    }
+</script>
+</html>
