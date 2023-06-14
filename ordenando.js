@@ -20,10 +20,10 @@ const shuffle = (vet, n) => {
         //guardando o tamanho do vetor
     for (let i = 0; i < len; i++) {
             //primeiro laço vai percorrer todo vetor
-      for (let j = 0; j < len - 1; j++) {
-            //segundo laço vai efetuar as comparações de cada elemento
+      for (let j = 0; j < len - i -1; j++) {
+            //segundo laço vai efetuar as comparações e foi otimizado com a comparação: "j < len - i - 1"
         if (vet[j] > vet[j + 1]) {
-            //comparando os elementos e efetuando ordenação com variável auxiliar
+            //comparando os elementos e efetuando troca para ordenação com variável auxiliar
           let aux = vet[j];
           vet[j] = vet[j + 1];
           vet[j + 1] = aux;
@@ -45,7 +45,7 @@ const shuffle = (vet, n) => {
         }
       }
       if (min !== i) {
-            //trocas
+            //troca se min não for igual a i
         let aux = vet[i];
         vet[i] = vet[min];
         vet[min] = aux;
@@ -62,23 +62,25 @@ const shuffle = (vet, n) => {
       quick_sort(vet, pivo + 1, posiFinal);
     }
     return vet;
-  };  
-  
-  const particiona = (vet, posiInicial, posiFinal) => {
-    let valorPivot = vet[posiInicial];
-    let i = posiInicial + 1;
-    let j = posiFinal;
-    while (i <= j) {
-        while (i <= j && vet[i] <= valorPivot) {
-            i++;
-        }
-        while (i <= j && vet[j] > valorPivot) {
-            j--;
-        }
-        if (i < j) {
-            [vet[i], vet[j]] = [vet[j], vet[i]];
-        }
-    }
-    [vet[posiInicial], vet[j]] = [vet[j], vet[posiInicial]];
-    return j;
+  };    
+ 
+const particiona = (vet, posiInicial, posiFinal) => {
+  let mid = Math.floor((posiInicial + posiFinal) / 2);
+  let median = [vet[posiInicial], vet[mid], vet[posiFinal]].sort()[1];
+  let valorPivot = median;
+  let i = posiInicial + 1;
+  let j = posiFinal;
+  while (i <= j) {
+      while (i <= j && vet[i] <= valorPivot) {
+          i++;
+      }
+      while (i <= j && vet[j] > valorPivot) {
+          j--;
+      }
+      if (i < j) {
+          [vet[i], vet[j]] = [vet[j], vet[i]];
+      }
+  }
+  [vet[posiInicial], vet[j]] = [vet[j], vet[posiInicial]];
+  return j;
 };
